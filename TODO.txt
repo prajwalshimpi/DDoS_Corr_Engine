@@ -1,0 +1,2 @@
+>Create function in data Feed Class
+>Create a new Class responsible for Uploading Data to Database
