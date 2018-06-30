@@ -1,2 +1,4 @@
->Create function in data Feed Class
->Create a new Class responsible for Uploading Data to Database
+>In datacollection script from web server
+    >get port number of request ip
+    >create a check in IP count loop to check if the request comming from same port
+    >if ports are different and both ports are sending numerous requests it means its either a bot or script for DDOS attack from client side sending requestion to server

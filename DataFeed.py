@@ -1,19 +1,26 @@
 # import the MySQLdb and sys modules
-import MySQLdb
-import sys
 
+import time
+from MySQLConnection import *
+from WriteProccessedLogs import *
 # open a database connection
-# be sure to change the host IP address, username, password and database name to match your own
-connection = MySQLdb.connect(host="localhost", port=3308, user="root", passwd="admin", db="core_engine")
+wpl = WriteProcessedLog()
+db = MySQLConnection()
 
 # prepare a cursor object using cursor() method
-cursor = connection.cursor()
+cursor = db.getCursor()
 
-# execute the SQL query using execute() method.
-cursor.execute("select DISTINCT ts from corr where pk>16")
+# execute query to get all the data from database
+try:
+    cursor.execute("select DISTINCT ts from corr where pk>10")
+except:
+    print("Couldn't Connect to MySQLdb")
+    time.sleep(5)
+    raise
 
 # fetch all of the rows from the query
 data = cursor.fetchall()
+#data = cursor.fetchmany(10)
 
 # print the rows
 if data == 0:
@@ -31,7 +38,7 @@ for time in data:
     for row in log:
         cunt+=1
         if le == 0:
-            dict = {str(le): {'IP': str(row[1]), 'P': 'HTTP', 'T': 1, 'LOC': str(row[2])}}
+            dict = {str(le): {'IP': str(row[1]), 'P': 'HTTP', 'T': 1, 'LOC': str(row[2]),'zip':str(row[3]),'port':80}}
             le += 1
             continue
         else:
@@ -40,20 +47,18 @@ for time in data:
                     if dict[str(n)]['P'] == 'HTTP':
                         dict[str(n)]['T'] += 1
                         continue
-                temp = {'IP': str(row[1]), 'P': 'HTTP', 'T': 1, 'LOC': str(row[2])}
+                temp = {'IP': str(row[1]), 'P': 'HTTP', 'T': 1, 'LOC': str(row[2]),'zip':str(row[3]),'port':80}
                 dict.setdefault(str(le), temp)
                 le += 1
     for n in range(0, le):
         if dict[str(n)]['T'] > 15 :
+            wpl.writeLogs(dict[str(n)]['IP'],dict[str(n)]['port'],dict[str(n)]['LOC'],dict[str(n)]['zip'],dict[str(n)]['P'],str(time[0]),dict[str(n)]['T'],str(1))
             print(" \t " + str(dict[str(n)]))
         else:
-            print(" \t No Sign of Attack")
+            wpl.writeLogs(dict[str(n)]['IP'], dict[str(n)]['port'], dict[str(n)]['LOC'], dict[str(n)]['zip'],dict[str(n)]['P'], str(time[0]), dict[str(n)]['T'], str(0))
+            print(" \t " + str(dict[str(n)]))
     dict = {}
-# close the cursor object
-cursor.close()
 
-# close the connection
-connection.close()
-
-# exit the program
+# closing MySQLConnection obj cursor
+del cursor
 sys.exit()
