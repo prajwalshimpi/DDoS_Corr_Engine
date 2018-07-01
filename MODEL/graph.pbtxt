@@ -3700,7 +3700,7 @@ node {
         dtype: DT_INT64
         tensor_shape {
         }
-        int64_val: 10000
+        int64_val: 100000
       }
     }
   }
@@ -3793,7 +3793,7 @@ node {
         dtype: DT_INT64
         tensor_shape {
         }
-        int64_val: -1
+        int64_val: 5
       }
     }
   }
@@ -3824,7 +3824,7 @@ node {
         dtype: DT_INT64
         tensor_shape {
         }
-        int64_val: 100
+        int64_val: 200
       }
     }
   }
@@ -3852,7 +3852,7 @@ node {
     key: "dataset_factory"
     value {
       func {
-        name: "_make_dataset_MhbAEYEB0cI"
+        name: "_make_dataset_0Poz6FcYA38"
       }
     }
   }
@@ -4034,6 +4034,3926 @@ node {
         type: DT_INT64
         type: DT_INT64
         type: DT_INT64
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ExpandDims/dim"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: -1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ExpandDims"
+  op: "ExpandDims"
+  input: "IteratorGetNext"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ExpandDims/dim"
+  attr {
+    key: "T"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "Tdim"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/to_sparse_input/ignore_value/x"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_STRING
+        tensor_shape {
+        }
+        string_val: ""
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/to_sparse_input/NotEqual"
+  op: "NotEqual"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ExpandDims"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/to_sparse_input/ignore_value/x"
+  attr {
+    key: "T"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/to_sparse_input/indices"
+  op: "Where"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/to_sparse_input/NotEqual"
+  attr {
+    key: "T"
+    value {
+      type: DT_BOOL
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/to_sparse_input/values"
+  op: "GatherNd"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ExpandDims"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/to_sparse_input/indices"
+  attr {
+    key: "Tindices"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "Tparams"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/to_sparse_input/dense_shape"
+  op: "Shape"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ExpandDims"
+  attr {
+    key: "T"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "out_type"
+    value {
+      type: DT_INT64
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/lookup"
+  op: "StringToHashBucketFast"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/to_sparse_input/values"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "num_buckets"
+    value {
+      i: 50
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Initializer/truncated_normal/shape"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 2
+          }
+        }
+        tensor_content: "2\000\000\000\002\000\000\000"
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Initializer/truncated_normal/mean"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Initializer/truncated_normal/stddev"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.707106769085
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Initializer/truncated_normal/TruncatedNormal"
+  op: "TruncatedNormal"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Initializer/truncated_normal/shape"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 50
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "seed"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "seed2"
+    value {
+      i: 0
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Initializer/truncated_normal/mul"
+  op: "Mul"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Initializer/truncated_normal/TruncatedNormal"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Initializer/truncated_normal/stddev"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 50
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Initializer/truncated_normal"
+  op: "Add"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Initializer/truncated_normal/mul"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Initializer/truncated_normal/mean"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 50
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+  op: "VariableV2"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 50
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "container"
+    value {
+      s: ""
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "shape"
+    value {
+      shape {
+        dim {
+          size: 50
+        }
+        dim {
+          size: 2
+        }
+      }
+    }
+  }
+  attr {
+    key: "shared_name"
+    value {
+      s: ""
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Assign"
+  op: "Assign"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Initializer/truncated_normal"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 50
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/read"
+  op: "Identity"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 50
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Slice/begin"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Slice/size"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Slice"
+  op: "Slice"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/to_sparse_input/dense_shape"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Slice/begin"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Slice/size"
+  attr {
+    key: "Index"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Const"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Prod"
+  op: "Prod"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Slice"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Const"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "Tidx"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "keep_dims"
+    value {
+      b: false
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/GatherV2/indices"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/GatherV2/axis"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/GatherV2"
+  op: "GatherV2"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/to_sparse_input/dense_shape"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/GatherV2/indices"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/GatherV2/axis"
+  attr {
+    key: "Taxis"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "Tindices"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "Tparams"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Cast/x"
+  op: "Pack"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Prod"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/GatherV2"
+  attr {
+    key: "N"
+    value {
+      i: 2
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "axis"
+    value {
+      i: 0
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/SparseReshape"
+  op: "SparseReshape"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/to_sparse_input/indices"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/to_sparse_input/dense_shape"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Cast/x"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 2
+          }
+        }
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/SparseReshape/Identity"
+  op: "Identity"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/lookup"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/GreaterEqual/y"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT64
+        tensor_shape {
+        }
+        int64_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/GreaterEqual"
+  op: "GreaterEqual"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/SparseReshape/Identity"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/GreaterEqual/y"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Where"
+  op: "Where"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/GreaterEqual"
+  attr {
+    key: "T"
+    value {
+      type: DT_BOOL
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Reshape/shape"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: -1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Reshape"
+  op: "Reshape"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Where"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Reshape/shape"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "Tshape"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/GatherV2_1/axis"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/GatherV2_1"
+  op: "GatherV2"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/SparseReshape"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Reshape"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/GatherV2_1/axis"
+  attr {
+    key: "Taxis"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "Tindices"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "Tparams"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/GatherV2_2/axis"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/GatherV2_2"
+  op: "GatherV2"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/SparseReshape/Identity"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Reshape"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/GatherV2_2/axis"
+  attr {
+    key: "Taxis"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "Tindices"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "Tparams"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Identity"
+  op: "Identity"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/SparseReshape:1"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/SparseFillEmptyRows/Const"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT64
+        tensor_shape {
+        }
+        int64_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/SparseFillEmptyRows/SparseFillEmptyRows"
+  op: "SparseFillEmptyRows"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/GatherV2_1"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/GatherV2_2"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Identity"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/SparseFillEmptyRows/Const"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 2
+          }
+        }
+        shape {
+          dim {
+            size: -1
+          }
+        }
+        shape {
+          dim {
+            size: -1
+          }
+        }
+        shape {
+          dim {
+            size: -1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/strided_slice/stack"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 2
+          }
+        }
+        tensor_content: "\000\000\000\000\000\000\000\000"
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/strided_slice/stack_1"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 2
+          }
+        }
+        tensor_content: "\000\000\000\000\001\000\000\000"
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/strided_slice/stack_2"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 2
+          }
+        }
+        tensor_content: "\001\000\000\000\001\000\000\000"
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/strided_slice"
+  op: "StridedSlice"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/SparseFillEmptyRows/SparseFillEmptyRows"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/strided_slice/stack"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/strided_slice/stack_1"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/strided_slice/stack_2"
+  attr {
+    key: "Index"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "begin_mask"
+    value {
+      i: 1
+    }
+  }
+  attr {
+    key: "ellipsis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "end_mask"
+    value {
+      i: 1
+    }
+  }
+  attr {
+    key: "new_axis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "shrink_axis_mask"
+    value {
+      i: 2
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/Cast"
+  op: "Cast"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/strided_slice"
+  attr {
+    key: "DstT"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "SrcT"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/Unique"
+  op: "Unique"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/SparseFillEmptyRows/SparseFillEmptyRows:1"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+        }
+        shape {
+          dim {
+            size: -1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "out_idx"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup/axis"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup"
+  op: "GatherV2"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/read"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/Unique"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup/axis"
+  attr {
+    key: "Taxis"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "Tindices"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "Tparams"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse"
+  op: "SparseSegmentMean"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/Unique:1"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/Cast"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tidx"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Reshape_1/shape"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 2
+          }
+        }
+        tensor_content: "\377\377\377\377\001\000\000\000"
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Reshape_1"
+  op: "Reshape"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/SparseFillEmptyRows/SparseFillEmptyRows:2"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Reshape_1/shape"
+  attr {
+    key: "T"
+    value {
+      type: DT_BOOL
+    }
+  }
+  attr {
+    key: "Tshape"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Shape"
+  op: "Shape"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "out_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/strided_slice/stack"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/strided_slice/stack_1"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 2
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/strided_slice/stack_2"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/strided_slice"
+  op: "StridedSlice"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Shape"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/strided_slice/stack"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/strided_slice/stack_1"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/strided_slice/stack_2"
+  attr {
+    key: "Index"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "begin_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "ellipsis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "end_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "new_axis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "shrink_axis_mask"
+    value {
+      i: 1
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/stack/0"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/stack"
+  op: "Pack"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/stack/0"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/strided_slice"
+  attr {
+    key: "N"
+    value {
+      i: 2
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "axis"
+    value {
+      i: 0
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Tile"
+  op: "Tile"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Reshape_1"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/stack"
+  attr {
+    key: "T"
+    value {
+      type: DT_BOOL
+    }
+  }
+  attr {
+    key: "Tmultiples"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: -1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/zeros_like"
+  op: "ZerosLike"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights"
+  op: "Select"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Tile"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/zeros_like"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Cast_1"
+  op: "Cast"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/to_sparse_input/dense_shape"
+  attr {
+    key: "DstT"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "SrcT"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Slice_1/begin"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Slice_1/size"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Slice_1"
+  op: "Slice"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Cast_1"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Slice_1/begin"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Slice_1/size"
+  attr {
+    key: "Index"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Shape_1"
+  op: "Shape"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "out_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Slice_2/begin"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Slice_2/size"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: -1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Slice_2"
+  op: "Slice"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Shape_1"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Slice_2/begin"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Slice_2/size"
+  attr {
+    key: "Index"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/concat/axis"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/concat"
+  op: "ConcatV2"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Slice_1"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Slice_2"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/concat/axis"
+  attr {
+    key: "N"
+    value {
+      i: 2
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "Tidx"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Reshape_2"
+  op: "Reshape"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/concat"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tshape"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/Shape"
+  op: "Shape"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Reshape_2"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "out_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/strided_slice/stack"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/strided_slice/stack_1"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/strided_slice/stack_2"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/strided_slice"
+  op: "StridedSlice"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/Shape"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/strided_slice/stack"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/strided_slice/stack_1"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/strided_slice/stack_2"
+  attr {
+    key: "Index"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "begin_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "ellipsis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "end_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "new_axis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "shrink_axis_mask"
+    value {
+      i: 1
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/Reshape/shape/1"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 2
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/Reshape/shape"
+  op: "Pack"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/strided_slice"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/Reshape/shape/1"
+  attr {
+    key: "N"
+    value {
+      i: 2
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "axis"
+    value {
+      i: 0
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/ip_embedding/Reshape"
+  op: "Reshape"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Reshape_2"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/Reshape/shape"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tshape"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/ExpandDims/dim"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: -1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/ExpandDims"
+  op: "ExpandDims"
+  input: "IteratorGetNext:1"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/ExpandDims/dim"
+  attr {
+    key: "T"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "Tdim"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/to_sparse_input/ignore_value/x"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_STRING
+        tensor_shape {
+        }
+        string_val: ""
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/to_sparse_input/NotEqual"
+  op: "NotEqual"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/ExpandDims"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/to_sparse_input/ignore_value/x"
+  attr {
+    key: "T"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/to_sparse_input/indices"
+  op: "Where"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/to_sparse_input/NotEqual"
+  attr {
+    key: "T"
+    value {
+      type: DT_BOOL
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/to_sparse_input/values"
+  op: "GatherNd"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/ExpandDims"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/to_sparse_input/indices"
+  attr {
+    key: "Tindices"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "Tparams"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/to_sparse_input/dense_shape"
+  op: "Shape"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/ExpandDims"
+  attr {
+    key: "T"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "out_type"
+    value {
+      type: DT_INT64
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/loc_country_lookup/Const"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 7
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_STRING
+        tensor_shape {
+          dim {
+            size: 7
+          }
+        }
+        string_val: "HU"
+        string_val: "US"
+        string_val: "PK"
+        string_val: "RU"
+        string_val: "MY"
+        string_val: "SE"
+        string_val: "KR"
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/loc_country_lookup/Size"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 7
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/loc_country_lookup/range/start"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/loc_country_lookup/range/delta"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/loc_country_lookup/range"
+  op: "Range"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/loc_country_lookup/range/start"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/loc_country_lookup/Size"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/loc_country_lookup/range/delta"
+  attr {
+    key: "Tidx"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 7
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/loc_country_lookup/ToInt64"
+  op: "Cast"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/loc_country_lookup/range"
+  attr {
+    key: "DstT"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "SrcT"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 7
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/loc_country_lookup/hash_table"
+  op: "HashTableV2"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "container"
+    value {
+      s: ""
+    }
+  }
+  attr {
+    key: "key_dtype"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "shared_name"
+    value {
+      s: ""
+    }
+  }
+  attr {
+    key: "use_node_name_sharing"
+    value {
+      b: false
+    }
+  }
+  attr {
+    key: "value_dtype"
+    value {
+      type: DT_INT64
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/loc_country_lookup/hash_table/Const"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT64
+        tensor_shape {
+        }
+        int64_val: -1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/loc_country_lookup/hash_table/table_init"
+  op: "InitializeTableV2"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/loc_country_lookup/hash_table"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/loc_country_lookup/Const"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/loc_country_lookup/ToInt64"
+  attr {
+    key: "Tkey"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "Tval"
+    value {
+      type: DT_INT64
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/hash_table_Lookup"
+  op: "LookupTableFindV2"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/loc_country_lookup/hash_table"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/to_sparse_input/values"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/loc_country_lookup/hash_table/Const"
+  attr {
+    key: "Tin"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "Tout"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/SparseToDense/default_value"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT64
+        tensor_shape {
+        }
+        int64_val: -1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/SparseToDense"
+  op: "SparseToDense"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/to_sparse_input/indices"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/to_sparse_input/dense_shape"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/hash_table_Lookup"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/SparseToDense/default_value"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "Tindices"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "validate_indices"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/one_hot/Const"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 1.0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/one_hot/Const_1"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/one_hot/depth"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 7
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/one_hot/on_value"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 1.0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/one_hot/off_value"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/one_hot"
+  op: "OneHot"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/SparseToDense"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/one_hot/depth"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/one_hot/on_value"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/one_hot/off_value"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "TI"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 1
+          }
+          dim {
+            size: 7
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "axis"
+    value {
+      i: -1
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/Sum/reduction_indices"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: -2
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/Sum"
+  op: "Sum"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/one_hot"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/Sum/reduction_indices"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tidx"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 7
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "keep_dims"
+    value {
+      b: false
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/Shape"
+  op: "Shape"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/Sum"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "out_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/strided_slice/stack"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/strided_slice/stack_1"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/strided_slice/stack_2"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/strided_slice"
+  op: "StridedSlice"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/Shape"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/strided_slice/stack"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/strided_slice/stack_1"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/strided_slice/stack_2"
+  attr {
+    key: "Index"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "begin_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "ellipsis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "end_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "new_axis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "shrink_axis_mask"
+    value {
+      i: 1
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/Reshape/shape/1"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 7
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/Reshape/shape"
+  op: "Pack"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/strided_slice"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/Reshape/shape/1"
+  attr {
+    key: "N"
+    value {
+      i: 2
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "axis"
+    value {
+      i: 0
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/Reshape"
+  op: "Reshape"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/Sum"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/Reshape/shape"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tshape"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 7
+          }
+        }
       }
     }
   }
@@ -4422,6 +8342,1153 @@ node {
           }
           dim {
             size: 1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/ExpandDims/dim"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: -1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/ExpandDims"
+  op: "ExpandDims"
+  input: "IteratorGetNext:3"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/ExpandDims/dim"
+  attr {
+    key: "T"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "Tdim"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/to_sparse_input/ignore_value/x"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_STRING
+        tensor_shape {
+        }
+        string_val: ""
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/to_sparse_input/NotEqual"
+  op: "NotEqual"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/ExpandDims"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/to_sparse_input/ignore_value/x"
+  attr {
+    key: "T"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/to_sparse_input/indices"
+  op: "Where"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/to_sparse_input/NotEqual"
+  attr {
+    key: "T"
+    value {
+      type: DT_BOOL
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/to_sparse_input/values"
+  op: "GatherNd"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/ExpandDims"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/to_sparse_input/indices"
+  attr {
+    key: "Tindices"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "Tparams"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/to_sparse_input/dense_shape"
+  op: "Shape"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/ExpandDims"
+  attr {
+    key: "T"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "out_type"
+    value {
+      type: DT_INT64
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/protocol_lookup/Const"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 5
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_STRING
+        tensor_shape {
+          dim {
+            size: 5
+          }
+        }
+        string_val: "HTTP"
+        string_val: "HTTPS"
+        string_val: "ICMP"
+        string_val: "UDP"
+        string_val: "TCP"
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/protocol_lookup/Size"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 5
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/protocol_lookup/range/start"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/protocol_lookup/range/delta"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/protocol_lookup/range"
+  op: "Range"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/protocol_lookup/range/start"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/protocol_lookup/Size"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/protocol_lookup/range/delta"
+  attr {
+    key: "Tidx"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 5
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/protocol_lookup/ToInt64"
+  op: "Cast"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/protocol_lookup/range"
+  attr {
+    key: "DstT"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "SrcT"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 5
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/protocol_lookup/hash_table"
+  op: "HashTableV2"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "container"
+    value {
+      s: ""
+    }
+  }
+  attr {
+    key: "key_dtype"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "shared_name"
+    value {
+      s: ""
+    }
+  }
+  attr {
+    key: "use_node_name_sharing"
+    value {
+      b: false
+    }
+  }
+  attr {
+    key: "value_dtype"
+    value {
+      type: DT_INT64
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/protocol_lookup/hash_table/Const"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT64
+        tensor_shape {
+        }
+        int64_val: -1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/protocol_lookup/hash_table/table_init"
+  op: "InitializeTableV2"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/protocol_lookup/hash_table"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/protocol_lookup/Const"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/protocol_lookup/ToInt64"
+  attr {
+    key: "Tkey"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "Tval"
+    value {
+      type: DT_INT64
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/hash_table_Lookup"
+  op: "LookupTableFindV2"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/protocol_lookup/hash_table"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/to_sparse_input/values"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/protocol_lookup/hash_table/Const"
+  attr {
+    key: "Tin"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "Tout"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/SparseToDense/default_value"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT64
+        tensor_shape {
+        }
+        int64_val: -1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/SparseToDense"
+  op: "SparseToDense"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/to_sparse_input/indices"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/to_sparse_input/dense_shape"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/hash_table_Lookup"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/SparseToDense/default_value"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "Tindices"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "validate_indices"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/one_hot/Const"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 1.0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/one_hot/Const_1"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/one_hot/depth"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 5
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/one_hot/on_value"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 1.0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/one_hot/off_value"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/one_hot"
+  op: "OneHot"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/SparseToDense"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/one_hot/depth"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/one_hot/on_value"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/one_hot/off_value"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "TI"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 1
+          }
+          dim {
+            size: 5
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "axis"
+    value {
+      i: -1
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/Sum/reduction_indices"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: -2
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/Sum"
+  op: "Sum"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/one_hot"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/Sum/reduction_indices"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tidx"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 5
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "keep_dims"
+    value {
+      b: false
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/Shape"
+  op: "Shape"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/Sum"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "out_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/strided_slice/stack"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/strided_slice/stack_1"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/strided_slice/stack_2"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/strided_slice"
+  op: "StridedSlice"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/Shape"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/strided_slice/stack"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/strided_slice/stack_1"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/strided_slice/stack_2"
+  attr {
+    key: "Index"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "begin_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "ellipsis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "end_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "new_axis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "shrink_axis_mask"
+    value {
+      i: 1
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/Reshape/shape/1"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 5
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/Reshape/shape"
+  op: "Pack"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/strided_slice"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/Reshape/shape/1"
+  attr {
+    key: "N"
+    value {
+      i: 2
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "axis"
+    value {
+      i: 0
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/protocol_indicator/Reshape"
+  op: "Reshape"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/Sum"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/Reshape/shape"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tshape"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 5
           }
         }
       }
@@ -5241,14 +10308,17 @@ node {
 node {
   name: "dnn/input_from_feature_columns/input_layer/concat"
   op: "ConcatV2"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/Reshape"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/Reshape"
   input: "dnn/input_from_feature_columns/input_layer/port/Reshape"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/Reshape"
   input: "dnn/input_from_feature_columns/input_layer/times/Reshape"
   input: "dnn/input_from_feature_columns/input_layer/zip/Reshape"
   input: "dnn/input_from_feature_columns/input_layer/concat/axis"
   attr {
     key: "N"
     value {
-      i: 3
+      i: 6
     }
   }
   attr {
@@ -5272,7 +10342,7 @@ node {
             size: -1
           }
           dim {
-            size: 3
+            size: 17
           }
         }
       }
@@ -5318,7 +10388,7 @@ node {
             size: 2
           }
         }
-        tensor_content: "\003\000\000\000d\000\000\000"
+        tensor_content: "\021\000\000\000d\000\000\000"
       }
     }
   }
@@ -5356,7 +10426,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
         }
-        float_val: -0.241355389357
+        float_val: -0.226455405354
       }
     }
   }
@@ -5394,7 +10464,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
         }
-        float_val: 0.241355389357
+        float_val: 0.226455405354
       }
     }
   }
@@ -5423,7 +10493,7 @@ node {
       list {
         shape {
           dim {
-            size: 3
+            size: 17
           }
           dim {
             size: 100
@@ -5505,7 +10575,7 @@ node {
       list {
         shape {
           dim {
-            size: 3
+            size: 17
           }
           dim {
             size: 100
@@ -5540,7 +10610,7 @@ node {
       list {
         shape {
           dim {
-            size: 3
+            size: 17
           }
           dim {
             size: 100
@@ -5567,7 +10637,7 @@ node {
       list {
         shape {
           dim {
-            size: 3
+            size: 17
           }
           dim {
             size: 100
@@ -5593,7 +10663,7 @@ node {
     value {
       shape {
         dim {
-          size: 3
+          size: 17
         }
         dim {
           size: 100
@@ -5633,7 +10703,7 @@ node {
       list {
         shape {
           dim {
-            size: 3
+            size: 17
           }
           dim {
             size: 100
@@ -5679,7 +10749,7 @@ node {
       list {
         shape {
           dim {
-            size: 3
+            size: 17
           }
           dim {
             size: 100
@@ -5876,7 +10946,7 @@ node {
       list {
         shape {
           dim {
-            size: 3
+            size: 17
           }
           dim {
             size: 100
@@ -6306,7 +11376,7 @@ node {
             size: 2
           }
         }
-        tensor_content: "d\000\000\0002\000\000\000"
+        tensor_content: "d\000\000\000d\000\000\000"
       }
     }
   }
@@ -6344,7 +11414,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
         }
-        float_val: -0.20000000298
+        float_val: -0.173205077648
       }
     }
   }
@@ -6382,7 +11452,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
         }
-        float_val: 0.20000000298
+        float_val: 0.173205077648
       }
     }
   }
@@ -6414,7 +11484,7 @@ node {
             size: 100
           }
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -6496,7 +11566,7 @@ node {
             size: 100
           }
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -6531,7 +11601,7 @@ node {
             size: 100
           }
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -6558,7 +11628,7 @@ node {
             size: 100
           }
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -6584,7 +11654,7 @@ node {
           size: 100
         }
         dim {
-          size: 50
+          size: 100
         }
       }
     }
@@ -6624,7 +11694,7 @@ node {
             size: 100
           }
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -6670,7 +11740,7 @@ node {
             size: 100
           }
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -6694,7 +11764,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -6713,7 +11783,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
           dim {
-            size: 50
+            size: 100
           }
         }
         float_val: 0.0
@@ -6738,7 +11808,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -6761,7 +11831,7 @@ node {
     value {
       shape {
         dim {
-          size: 50
+          size: 100
         }
       }
     }
@@ -6798,7 +11868,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -6841,7 +11911,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -6867,7 +11937,7 @@ node {
             size: 100
           }
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -6894,7 +11964,7 @@ node {
             size: -1
           }
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -6929,7 +11999,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -6956,7 +12026,7 @@ node {
             size: -1
           }
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -6988,7 +12058,7 @@ node {
             size: -1
           }
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -7045,7 +12115,7 @@ node {
             size: -1
           }
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -7077,7 +12147,7 @@ node {
             size: -1
           }
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -7294,7 +12364,7 @@ node {
             size: 2
           }
         }
-        tensor_content: "2\000\000\000\001\000\000\000"
+        tensor_content: "d\000\000\000\001\000\000\000"
       }
     }
   }
@@ -7332,7 +12402,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
         }
-        float_val: -0.342997163534
+        float_val: -0.243733346462
       }
     }
   }
@@ -7370,7 +12440,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
         }
-        float_val: 0.342997163534
+        float_val: 0.243733346462
       }
     }
   }
@@ -7399,7 +12469,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
           dim {
             size: 1
@@ -7481,7 +12551,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
           dim {
             size: 1
@@ -7516,7 +12586,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
           dim {
             size: 1
@@ -7543,7 +12613,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
           dim {
             size: 1
@@ -7569,7 +12639,7 @@ node {
     value {
       shape {
         dim {
-          size: 50
+          size: 100
         }
         dim {
           size: 1
@@ -7609,7 +12679,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
           dim {
             size: 1
@@ -7655,7 +12725,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
           dim {
             size: 1
@@ -7852,7 +12922,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
           dim {
             size: 1
@@ -13388,7 +18458,7 @@ node {
             size: -1
           }
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -13424,7 +18494,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
           dim {
             size: 1
@@ -13480,7 +18550,7 @@ node {
             size: -1
           }
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -13512,7 +18582,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
           dim {
             size: 1
@@ -13542,7 +18612,7 @@ node {
             size: -1
           }
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -13565,7 +18635,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -13612,7 +18682,7 @@ node {
             size: -1
           }
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -13644,7 +18714,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -13710,7 +18780,7 @@ node {
             size: 100
           }
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -13798,7 +18868,7 @@ node {
             size: 100
           }
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -13954,7 +19024,7 @@ node {
             size: -1
           }
           dim {
-            size: 3
+            size: 17
           }
         }
       }
@@ -13990,7 +19060,7 @@ node {
       list {
         shape {
           dim {
-            size: 3
+            size: 17
           }
           dim {
             size: 100
@@ -14046,7 +19116,7 @@ node {
             size: -1
           }
           dim {
-            size: 3
+            size: 17
           }
         }
       }
@@ -14078,10 +19148,1802 @@ node {
       list {
         shape {
           dim {
-            size: 3
+            size: 17
           }
           dim {
             size: 100
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Rank"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 2
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/mod"
+  op: "FloorMod"
+  input: "dnn/input_from_feature_columns/input_layer/concat/axis"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Rank"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Shape"
+  op: "Shape"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/Reshape"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "out_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/ShapeN"
+  op: "ShapeN"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/Reshape"
+  input: "dnn/input_from_feature_columns/input_layer/loc_country_indicator/Reshape"
+  input: "dnn/input_from_feature_columns/input_layer/port/Reshape"
+  input: "dnn/input_from_feature_columns/input_layer/protocol_indicator/Reshape"
+  input: "dnn/input_from_feature_columns/input_layer/times/Reshape"
+  input: "dnn/input_from_feature_columns/input_layer/zip/Reshape"
+  attr {
+    key: "N"
+    value {
+      i: 6
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+        shape {
+          dim {
+            size: 2
+          }
+        }
+        shape {
+          dim {
+            size: 2
+          }
+        }
+        shape {
+          dim {
+            size: 2
+          }
+        }
+        shape {
+          dim {
+            size: 2
+          }
+        }
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "out_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/ConcatOffset"
+  op: "ConcatOffset"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/mod"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/ShapeN"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/ShapeN:1"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/ShapeN:2"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/ShapeN:3"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/ShapeN:4"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/ShapeN:5"
+  attr {
+    key: "N"
+    value {
+      i: 6
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+        shape {
+          dim {
+            size: 2
+          }
+        }
+        shape {
+          dim {
+            size: 2
+          }
+        }
+        shape {
+          dim {
+            size: 2
+          }
+        }
+        shape {
+          dim {
+            size: 2
+          }
+        }
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Slice"
+  op: "Slice"
+  input: "dnn/head/gradients/dnn/hiddenlayer_0/MatMul_grad/tuple/control_dependency"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/ConcatOffset"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/ShapeN"
+  attr {
+    key: "Index"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: -1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Slice_1"
+  op: "Slice"
+  input: "dnn/head/gradients/dnn/hiddenlayer_0/MatMul_grad/tuple/control_dependency"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/ConcatOffset:1"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/ShapeN:1"
+  attr {
+    key: "Index"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: -1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Slice_2"
+  op: "Slice"
+  input: "dnn/head/gradients/dnn/hiddenlayer_0/MatMul_grad/tuple/control_dependency"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/ConcatOffset:2"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/ShapeN:2"
+  attr {
+    key: "Index"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: -1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Slice_3"
+  op: "Slice"
+  input: "dnn/head/gradients/dnn/hiddenlayer_0/MatMul_grad/tuple/control_dependency"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/ConcatOffset:3"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/ShapeN:3"
+  attr {
+    key: "Index"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: -1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Slice_4"
+  op: "Slice"
+  input: "dnn/head/gradients/dnn/hiddenlayer_0/MatMul_grad/tuple/control_dependency"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/ConcatOffset:4"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/ShapeN:4"
+  attr {
+    key: "Index"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: -1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Slice_5"
+  op: "Slice"
+  input: "dnn/head/gradients/dnn/hiddenlayer_0/MatMul_grad/tuple/control_dependency"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/ConcatOffset:5"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/ShapeN:5"
+  attr {
+    key: "Index"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: -1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/tuple/group_deps"
+  op: "NoOp"
+  input: "^dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Slice"
+  input: "^dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Slice_1"
+  input: "^dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Slice_2"
+  input: "^dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Slice_3"
+  input: "^dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Slice_4"
+  input: "^dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Slice_5"
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/tuple/control_dependency"
+  op: "Identity"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Slice"
+  input: "^dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Slice"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/tuple/control_dependency_1"
+  op: "Identity"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Slice_1"
+  input: "^dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Slice_1"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 7
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/tuple/control_dependency_2"
+  op: "Identity"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Slice_2"
+  input: "^dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Slice_2"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/tuple/control_dependency_3"
+  op: "Identity"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Slice_3"
+  input: "^dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Slice_3"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 5
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/tuple/control_dependency_4"
+  op: "Identity"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Slice_4"
+  input: "^dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Slice_4"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/tuple/control_dependency_5"
+  op: "Identity"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Slice_5"
+  input: "^dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/Slice_5"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/Reshape_grad/Shape"
+  op: "Shape"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Reshape_2"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "out_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/Reshape_grad/Reshape"
+  op: "Reshape"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/concat_grad/tuple/control_dependency"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/Reshape_grad/Shape"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tshape"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Reshape_2_grad/Shape"
+  op: "Shape"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "out_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Reshape_2_grad/Reshape"
+  op: "Reshape"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/Reshape_grad/Reshape"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Reshape_2_grad/Shape"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tshape"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights_grad/zeros_like"
+  op: "ZerosLike"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/zeros_like"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights_grad/Select"
+  op: "Select"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Tile"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Reshape_2_grad/Reshape"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights_grad/zeros_like"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights_grad/Select_1"
+  op: "Select"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Tile"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights_grad/zeros_like"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/Reshape_2_grad/Reshape"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights_grad/tuple/group_deps"
+  op: "NoOp"
+  input: "^dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights_grad/Select"
+  input: "^dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights_grad/Select_1"
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights_grad/tuple/control_dependency"
+  op: "Identity"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights_grad/Select"
+  input: "^dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights_grad/Select"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights_grad/tuple/control_dependency_1"
+  op: "Identity"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights_grad/Select_1"
+  input: "^dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights_grad/Select_1"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse_grad/Shape"
+  op: "Shape"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "out_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse_grad/strided_slice/stack"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse_grad/strided_slice/stack_1"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse_grad/strided_slice/stack_2"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse_grad/strided_slice"
+  op: "StridedSlice"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse_grad/Shape"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse_grad/strided_slice/stack"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse_grad/strided_slice/stack_1"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse_grad/strided_slice/stack_2"
+  attr {
+    key: "Index"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "begin_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "ellipsis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "end_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "new_axis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "shrink_axis_mask"
+    value {
+      i: 1
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse_grad/SparseSegmentMeanGrad"
+  op: "SparseSegmentMeanGrad"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights_grad/tuple/control_dependency_1"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/Unique:1"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/Cast"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse_grad/strided_slice"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tidx"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/Shape"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT64
+        tensor_shape {
+          dim {
+            size: 2
+          }
+        }
+        tensor_content: "2\000\000\000\000\000\000\000\002\000\000\000\000\000\000\000"
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/ToInt32"
+  op: "Cast"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/Shape"
+  attr {
+    key: "DstT"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "SrcT"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/Size"
+  op: "Size"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/Unique"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "out_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/ExpandDims/dim"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/ExpandDims"
+  op: "ExpandDims"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/Size"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/ExpandDims/dim"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "Tdim"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/strided_slice/stack"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/strided_slice/stack_1"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/strided_slice/stack_2"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/strided_slice"
+  op: "StridedSlice"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/ToInt32"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/strided_slice/stack"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/strided_slice/stack_1"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/strided_slice/stack_2"
+  attr {
+    key: "Index"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "begin_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "ellipsis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "end_mask"
+    value {
+      i: 1
+    }
+  }
+  attr {
+    key: "new_axis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "shrink_axis_mask"
+    value {
+      i: 0
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/concat/axis"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/concat"
+  op: "ConcatV2"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/ExpandDims"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/strided_slice"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/concat/axis"
+  attr {
+    key: "N"
+    value {
+      i: 2
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "Tidx"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/Reshape"
+  op: "Reshape"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse_grad/SparseSegmentMeanGrad"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/concat"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tshape"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/Reshape_1"
+  op: "Reshape"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/Unique"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/ExpandDims"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "Tshape"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Adagrad/Initializer/Const"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 50
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+          dim {
+            size: 50
+          }
+          dim {
+            size: 2
+          }
+        }
+        float_val: 0.10000000149
+      }
+    }
+  }
+}
+node {
+  name: "dnn/dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Adagrad"
+  op: "VariableV2"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 50
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "container"
+    value {
+      s: ""
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "shape"
+    value {
+      shape {
+        dim {
+          size: 50
+        }
+        dim {
+          size: 2
+        }
+      }
+    }
+  }
+  attr {
+    key: "shared_name"
+    value {
+      s: ""
+    }
+  }
+}
+node {
+  name: "dnn/dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Adagrad/Assign"
+  op: "Assign"
+  input: "dnn/dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Adagrad"
+  input: "dnn/dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Adagrad/Initializer/Const"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 50
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "dnn/dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Adagrad/read"
+  op: "Identity"
+  input: "dnn/dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Adagrad"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 50
+          }
+          dim {
+            size: 2
           }
         }
       }
@@ -14105,7 +20967,7 @@ node {
       list {
         shape {
           dim {
-            size: 3
+            size: 17
           }
           dim {
             size: 100
@@ -14127,7 +20989,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
           dim {
-            size: 3
+            size: 17
           }
           dim {
             size: 100
@@ -14155,7 +21017,7 @@ node {
       list {
         shape {
           dim {
-            size: 3
+            size: 17
           }
           dim {
             size: 100
@@ -14181,7 +21043,7 @@ node {
     value {
       shape {
         dim {
-          size: 3
+          size: 17
         }
         dim {
           size: 100
@@ -14221,7 +21083,7 @@ node {
       list {
         shape {
           dim {
-            size: 3
+            size: 17
           }
           dim {
             size: 100
@@ -14267,7 +21129,7 @@ node {
       list {
         shape {
           dim {
-            size: 3
+            size: 17
           }
           dim {
             size: 100
@@ -14468,7 +21330,7 @@ node {
             size: 100
           }
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -14490,7 +21352,7 @@ node {
             size: 100
           }
           dim {
-            size: 50
+            size: 100
           }
         }
         float_val: 0.10000000149
@@ -14518,7 +21380,7 @@ node {
             size: 100
           }
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -14544,7 +21406,7 @@ node {
           size: 100
         }
         dim {
-          size: 50
+          size: 100
         }
       }
     }
@@ -14584,7 +21446,7 @@ node {
             size: 100
           }
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -14630,7 +21492,7 @@ node {
             size: 100
           }
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -14654,7 +21516,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -14673,7 +21535,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
           dim {
-            size: 50
+            size: 100
           }
         }
         float_val: 0.10000000149
@@ -14698,7 +21560,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -14721,7 +21583,7 @@ node {
     value {
       shape {
         dim {
-          size: 50
+          size: 100
         }
       }
     }
@@ -14758,7 +21620,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -14801,7 +21663,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -14825,7 +21687,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
           dim {
             size: 1
@@ -14847,7 +21709,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
           dim {
-            size: 50
+            size: 100
           }
           dim {
             size: 1
@@ -14875,7 +21737,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
           dim {
             size: 1
@@ -14901,7 +21763,7 @@ node {
     value {
       shape {
         dim {
-          size: 50
+          size: 100
         }
         dim {
           size: 1
@@ -14941,7 +21803,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
           dim {
             size: 1
@@ -14987,7 +21849,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
           dim {
             size: 1
@@ -15199,6 +22061,382 @@ node {
   }
 }
 node {
+  name: "dnn/head/Adagrad/update_dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Unique"
+  op: "Unique"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/Reshape_1"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+        }
+        shape {
+          dim {
+            size: -1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "out_idx"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "dnn/head/Adagrad/update_dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Shape"
+  op: "Shape"
+  input: "dnn/head/Adagrad/update_dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Unique"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "out_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "dnn/head/Adagrad/update_dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/strided_slice/stack"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/Adagrad/update_dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/strided_slice/stack_1"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/Adagrad/update_dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/strided_slice/stack_2"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/Adagrad/update_dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/strided_slice"
+  op: "StridedSlice"
+  input: "dnn/head/Adagrad/update_dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Shape"
+  input: "dnn/head/Adagrad/update_dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/strided_slice/stack"
+  input: "dnn/head/Adagrad/update_dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/strided_slice/stack_1"
+  input: "dnn/head/Adagrad/update_dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/strided_slice/stack_2"
+  attr {
+    key: "Index"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "begin_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "ellipsis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "end_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "new_axis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "shrink_axis_mask"
+    value {
+      i: 1
+    }
+  }
+}
+node {
+  name: "dnn/head/Adagrad/update_dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/UnsortedSegmentSum"
+  op: "UnsortedSegmentSum"
+  input: "dnn/head/gradients/dnn/input_from_feature_columns/input_layer/ip_embedding/ip_embedding_weights/embedding_lookup_sparse/embedding_lookup_grad/Reshape"
+  input: "dnn/head/Adagrad/update_dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Unique:1"
+  input: "dnn/head/Adagrad/update_dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/strided_slice"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tindices"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "Tnumsegments"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/head/Adagrad/update_dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/SparseApplyAdagrad"
+  op: "SparseApplyAdagrad"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+  input: "dnn/dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Adagrad"
+  input: "dnn/head/Adagrad/learning_rate"
+  input: "dnn/head/Adagrad/update_dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/UnsortedSegmentSum"
+  input: "dnn/head/Adagrad/update_dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Unique"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tindices"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 50
+          }
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: false
+    }
+  }
+}
+node {
   name: "dnn/head/Adagrad/update_dnn/hiddenlayer_0/kernel/part_0/ApplyAdagrad"
   op: "ApplyAdagrad"
   input: "dnn/hiddenlayer_0/kernel/part_0"
@@ -15225,7 +22463,7 @@ node {
       list {
         shape {
           dim {
-            size: 3
+            size: 17
           }
           dim {
             size: 100
@@ -15311,7 +22549,7 @@ node {
             size: 100
           }
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -15351,7 +22589,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -15391,7 +22629,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
           dim {
             size: 1
@@ -15454,6 +22692,7 @@ node {
   input: "^dnn/head/Adagrad/update_dnn/hiddenlayer_0/kernel/part_0/ApplyAdagrad"
   input: "^dnn/head/Adagrad/update_dnn/hiddenlayer_1/bias/part_0/ApplyAdagrad"
   input: "^dnn/head/Adagrad/update_dnn/hiddenlayer_1/kernel/part_0/ApplyAdagrad"
+  input: "^dnn/head/Adagrad/update_dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/SparseApplyAdagrad"
   input: "^dnn/head/Adagrad/update_dnn/logits/bias/part_0/ApplyAdagrad"
   input: "^dnn/head/Adagrad/update_dnn/logits/kernel/part_0/ApplyAdagrad"
 }
@@ -15879,12 +23118,14 @@ node {
   input: "^dnn/dnn/hiddenlayer_0/kernel/part_0/Adagrad/Assign"
   input: "^dnn/dnn/hiddenlayer_1/bias/part_0/Adagrad/Assign"
   input: "^dnn/dnn/hiddenlayer_1/kernel/part_0/Adagrad/Assign"
+  input: "^dnn/dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Adagrad/Assign"
   input: "^dnn/dnn/logits/bias/part_0/Adagrad/Assign"
   input: "^dnn/dnn/logits/kernel/part_0/Adagrad/Assign"
   input: "^dnn/hiddenlayer_0/bias/part_0/Assign"
   input: "^dnn/hiddenlayer_0/kernel/part_0/Assign"
   input: "^dnn/hiddenlayer_1/bias/part_0/Assign"
   input: "^dnn/hiddenlayer_1/kernel/part_0/Assign"
+  input: "^dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Assign"
   input: "^dnn/logits/bias/part_0/Assign"
   input: "^dnn/logits/kernel/part_0/Assign"
   input: "^global_step/Assign"
@@ -15930,6 +23171,34 @@ node {
 node {
   name: "report_uninitialized_variables/IsVariableInitialized_1"
   op: "IsVariableInitialized"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+}
+node {
+  name: "report_uninitialized_variables/IsVariableInitialized_2"
+  op: "IsVariableInitialized"
   input: "dnn/hiddenlayer_0/kernel/part_0"
   attr {
     key: "_class"
@@ -15956,7 +23225,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables/IsVariableInitialized_2"
+  name: "report_uninitialized_variables/IsVariableInitialized_3"
   op: "IsVariableInitialized"
   input: "dnn/hiddenlayer_0/bias/part_0"
   attr {
@@ -15984,7 +23253,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables/IsVariableInitialized_3"
+  name: "report_uninitialized_variables/IsVariableInitialized_4"
   op: "IsVariableInitialized"
   input: "dnn/hiddenlayer_1/kernel/part_0"
   attr {
@@ -16012,7 +23281,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables/IsVariableInitialized_4"
+  name: "report_uninitialized_variables/IsVariableInitialized_5"
   op: "IsVariableInitialized"
   input: "dnn/hiddenlayer_1/bias/part_0"
   attr {
@@ -16040,7 +23309,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables/IsVariableInitialized_5"
+  name: "report_uninitialized_variables/IsVariableInitialized_6"
   op: "IsVariableInitialized"
   input: "dnn/logits/kernel/part_0"
   attr {
@@ -16068,7 +23337,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables/IsVariableInitialized_6"
+  name: "report_uninitialized_variables/IsVariableInitialized_7"
   op: "IsVariableInitialized"
   input: "dnn/logits/bias/part_0"
   attr {
@@ -16096,7 +23365,35 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables/IsVariableInitialized_7"
+  name: "report_uninitialized_variables/IsVariableInitialized_8"
+  op: "IsVariableInitialized"
+  input: "dnn/dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Adagrad"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+}
+node {
+  name: "report_uninitialized_variables/IsVariableInitialized_9"
   op: "IsVariableInitialized"
   input: "dnn/dnn/hiddenlayer_0/kernel/part_0/Adagrad"
   attr {
@@ -16124,7 +23421,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables/IsVariableInitialized_8"
+  name: "report_uninitialized_variables/IsVariableInitialized_10"
   op: "IsVariableInitialized"
   input: "dnn/dnn/hiddenlayer_0/bias/part_0/Adagrad"
   attr {
@@ -16152,7 +23449,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables/IsVariableInitialized_9"
+  name: "report_uninitialized_variables/IsVariableInitialized_11"
   op: "IsVariableInitialized"
   input: "dnn/dnn/hiddenlayer_1/kernel/part_0/Adagrad"
   attr {
@@ -16180,7 +23477,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables/IsVariableInitialized_10"
+  name: "report_uninitialized_variables/IsVariableInitialized_12"
   op: "IsVariableInitialized"
   input: "dnn/dnn/hiddenlayer_1/bias/part_0/Adagrad"
   attr {
@@ -16208,7 +23505,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables/IsVariableInitialized_11"
+  name: "report_uninitialized_variables/IsVariableInitialized_13"
   op: "IsVariableInitialized"
   input: "dnn/dnn/logits/kernel/part_0/Adagrad"
   attr {
@@ -16236,7 +23533,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables/IsVariableInitialized_12"
+  name: "report_uninitialized_variables/IsVariableInitialized_14"
   op: "IsVariableInitialized"
   input: "dnn/dnn/logits/bias/part_0/Adagrad"
   attr {
@@ -16279,11 +23576,13 @@ node {
   input: "report_uninitialized_variables/IsVariableInitialized_10"
   input: "report_uninitialized_variables/IsVariableInitialized_11"
   input: "report_uninitialized_variables/IsVariableInitialized_12"
+  input: "report_uninitialized_variables/IsVariableInitialized_13"
+  input: "report_uninitialized_variables/IsVariableInitialized_14"
   device: "/device:CPU:0"
   attr {
     key: "N"
     value {
-      i: 13
+      i: 15
     }
   }
   attr {
@@ -16298,7 +23597,7 @@ node {
       list {
         shape {
           dim {
-            size: 13
+            size: 15
           }
         }
       }
@@ -16322,7 +23621,7 @@ node {
       list {
         shape {
           dim {
-            size: 13
+            size: 15
           }
         }
       }
@@ -16339,7 +23638,7 @@ node {
       list {
         shape {
           dim {
-            size: 13
+            size: 15
           }
         }
       }
@@ -16358,16 +23657,18 @@ node {
         dtype: DT_STRING
         tensor_shape {
           dim {
-            size: 13
+            size: 15
           }
         }
         string_val: "global_step"
+        string_val: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
         string_val: "dnn/hiddenlayer_0/kernel/part_0"
         string_val: "dnn/hiddenlayer_0/bias/part_0"
         string_val: "dnn/hiddenlayer_1/kernel/part_0"
         string_val: "dnn/hiddenlayer_1/bias/part_0"
         string_val: "dnn/logits/kernel/part_0"
         string_val: "dnn/logits/bias/part_0"
+        string_val: "dnn/dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Adagrad"
         string_val: "dnn/dnn/hiddenlayer_0/kernel/part_0/Adagrad"
         string_val: "dnn/dnn/hiddenlayer_0/bias/part_0/Adagrad"
         string_val: "dnn/dnn/hiddenlayer_1/kernel/part_0/Adagrad"
@@ -16410,7 +23711,7 @@ node {
             size: 1
           }
         }
-        int_val: 13
+        int_val: 15
       }
     }
   }
@@ -16692,7 +23993,7 @@ node {
             size: 1
           }
         }
-        int_val: 13
+        int_val: 15
       }
     }
   }
@@ -16902,7 +24203,7 @@ node {
             size: 1
           }
         }
-        int_val: 13
+        int_val: 15
       }
     }
   }
@@ -17210,7 +24511,7 @@ node {
       list {
         shape {
           dim {
-            size: 13
+            size: 15
           }
         }
       }
@@ -17278,7 +24579,7 @@ node {
       list {
         shape {
           dim {
-            size: 13
+            size: 15
           }
         }
       }
@@ -17545,6 +24846,34 @@ node {
 node {
   name: "report_uninitialized_variables_1/IsVariableInitialized_1"
   op: "IsVariableInitialized"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+}
+node {
+  name: "report_uninitialized_variables_1/IsVariableInitialized_2"
+  op: "IsVariableInitialized"
   input: "dnn/hiddenlayer_0/kernel/part_0"
   attr {
     key: "_class"
@@ -17571,7 +24900,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables_1/IsVariableInitialized_2"
+  name: "report_uninitialized_variables_1/IsVariableInitialized_3"
   op: "IsVariableInitialized"
   input: "dnn/hiddenlayer_0/bias/part_0"
   attr {
@@ -17599,7 +24928,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables_1/IsVariableInitialized_3"
+  name: "report_uninitialized_variables_1/IsVariableInitialized_4"
   op: "IsVariableInitialized"
   input: "dnn/hiddenlayer_1/kernel/part_0"
   attr {
@@ -17627,7 +24956,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables_1/IsVariableInitialized_4"
+  name: "report_uninitialized_variables_1/IsVariableInitialized_5"
   op: "IsVariableInitialized"
   input: "dnn/hiddenlayer_1/bias/part_0"
   attr {
@@ -17655,7 +24984,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables_1/IsVariableInitialized_5"
+  name: "report_uninitialized_variables_1/IsVariableInitialized_6"
   op: "IsVariableInitialized"
   input: "dnn/logits/kernel/part_0"
   attr {
@@ -17683,7 +25012,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables_1/IsVariableInitialized_6"
+  name: "report_uninitialized_variables_1/IsVariableInitialized_7"
   op: "IsVariableInitialized"
   input: "dnn/logits/bias/part_0"
   attr {
@@ -17711,7 +25040,35 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables_1/IsVariableInitialized_7"
+  name: "report_uninitialized_variables_1/IsVariableInitialized_8"
+  op: "IsVariableInitialized"
+  input: "dnn/dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Adagrad"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+}
+node {
+  name: "report_uninitialized_variables_1/IsVariableInitialized_9"
   op: "IsVariableInitialized"
   input: "dnn/dnn/hiddenlayer_0/kernel/part_0/Adagrad"
   attr {
@@ -17739,7 +25096,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables_1/IsVariableInitialized_8"
+  name: "report_uninitialized_variables_1/IsVariableInitialized_10"
   op: "IsVariableInitialized"
   input: "dnn/dnn/hiddenlayer_0/bias/part_0/Adagrad"
   attr {
@@ -17767,7 +25124,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables_1/IsVariableInitialized_9"
+  name: "report_uninitialized_variables_1/IsVariableInitialized_11"
   op: "IsVariableInitialized"
   input: "dnn/dnn/hiddenlayer_1/kernel/part_0/Adagrad"
   attr {
@@ -17795,7 +25152,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables_1/IsVariableInitialized_10"
+  name: "report_uninitialized_variables_1/IsVariableInitialized_12"
   op: "IsVariableInitialized"
   input: "dnn/dnn/hiddenlayer_1/bias/part_0/Adagrad"
   attr {
@@ -17823,7 +25180,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables_1/IsVariableInitialized_11"
+  name: "report_uninitialized_variables_1/IsVariableInitialized_13"
   op: "IsVariableInitialized"
   input: "dnn/dnn/logits/kernel/part_0/Adagrad"
   attr {
@@ -17851,7 +25208,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables_1/IsVariableInitialized_12"
+  name: "report_uninitialized_variables_1/IsVariableInitialized_14"
   op: "IsVariableInitialized"
   input: "dnn/dnn/logits/bias/part_0/Adagrad"
   attr {
@@ -17894,11 +25251,13 @@ node {
   input: "report_uninitialized_variables_1/IsVariableInitialized_10"
   input: "report_uninitialized_variables_1/IsVariableInitialized_11"
   input: "report_uninitialized_variables_1/IsVariableInitialized_12"
+  input: "report_uninitialized_variables_1/IsVariableInitialized_13"
+  input: "report_uninitialized_variables_1/IsVariableInitialized_14"
   device: "/device:CPU:0"
   attr {
     key: "N"
     value {
-      i: 13
+      i: 15
     }
   }
   attr {
@@ -17913,7 +25272,7 @@ node {
       list {
         shape {
           dim {
-            size: 13
+            size: 15
           }
         }
       }
@@ -17937,7 +25296,7 @@ node {
       list {
         shape {
           dim {
-            size: 13
+            size: 15
           }
         }
       }
@@ -17954,7 +25313,7 @@ node {
       list {
         shape {
           dim {
-            size: 13
+            size: 15
           }
         }
       }
@@ -17973,16 +25332,18 @@ node {
         dtype: DT_STRING
         tensor_shape {
           dim {
-            size: 13
+            size: 15
           }
         }
         string_val: "global_step"
+        string_val: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
         string_val: "dnn/hiddenlayer_0/kernel/part_0"
         string_val: "dnn/hiddenlayer_0/bias/part_0"
         string_val: "dnn/hiddenlayer_1/kernel/part_0"
         string_val: "dnn/hiddenlayer_1/bias/part_0"
         string_val: "dnn/logits/kernel/part_0"
         string_val: "dnn/logits/bias/part_0"
+        string_val: "dnn/dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Adagrad"
         string_val: "dnn/dnn/hiddenlayer_0/kernel/part_0/Adagrad"
         string_val: "dnn/dnn/hiddenlayer_0/bias/part_0/Adagrad"
         string_val: "dnn/dnn/hiddenlayer_1/kernel/part_0/Adagrad"
@@ -18025,7 +25386,7 @@ node {
             size: 1
           }
         }
-        int_val: 13
+        int_val: 15
       }
     }
   }
@@ -18307,7 +25668,7 @@ node {
             size: 1
           }
         }
-        int_val: 13
+        int_val: 15
       }
     }
   }
@@ -18517,7 +25878,7 @@ node {
             size: 1
           }
         }
-        int_val: 13
+        int_val: 15
       }
     }
   }
@@ -18825,7 +26186,7 @@ node {
       list {
         shape {
           dim {
-            size: 13
+            size: 15
           }
         }
       }
@@ -18893,7 +26254,7 @@ node {
       list {
         shape {
           dim {
-            size: 13
+            size: 15
           }
         }
       }
@@ -19035,6 +26396,8 @@ node {
 node {
   name: "init_all_tables"
   op: "NoOp"
+  input: "^dnn/input_from_feature_columns/input_layer/loc_country_indicator/loc_country_lookup/hash_table/table_init"
+  input: "^dnn/input_from_feature_columns/input_layer/protocol_indicator/protocol_lookup/hash_table/table_init"
 }
 node {
   name: "init_3"
@@ -19129,7 +26492,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
         }
-        string_val: "_temp_97c6644a8188424b8354850a358a8674/part"
+        string_val: "_temp_ab04b0e2d2524a81a8c12b507302710a/part"
       }
     }
   }
@@ -19249,7 +26612,7 @@ node {
       list {
         shape {
           dim {
-            size: 13
+            size: 15
           }
         }
       }
@@ -19268,7 +26631,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
           dim {
-            size: 13
+            size: 15
           }
         }
         string_val: "dnn/hiddenlayer_0/bias"
@@ -19279,6 +26642,8 @@ node {
         string_val: "dnn/hiddenlayer_1/bias/t_0/Adagrad"
         string_val: "dnn/hiddenlayer_1/kernel"
         string_val: "dnn/hiddenlayer_1/kernel/t_0/Adagrad"
+        string_val: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights"
+        string_val: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/t_0/Adagrad"
         string_val: "dnn/logits/bias"
         string_val: "dnn/logits/bias/t_0/Adagrad"
         string_val: "dnn/logits/kernel"
@@ -19298,7 +26663,7 @@ node {
       list {
         shape {
           dim {
-            size: 13
+            size: 15
           }
         }
       }
@@ -19317,21 +26682,23 @@ node {
         dtype: DT_STRING
         tensor_shape {
           dim {
-            size: 13
+            size: 15
           }
         }
         string_val: "100 0,100"
         string_val: "100 0,100"
-        string_val: "3 100 0,3:0,100"
-        string_val: "3 100 0,3:0,100"
-        string_val: "50 0,50"
-        string_val: "50 0,50"
-        string_val: "100 50 0,100:0,50"
-        string_val: "100 50 0,100:0,50"
+        string_val: "17 100 0,17:0,100"
+        string_val: "17 100 0,17:0,100"
+        string_val: "100 0,100"
+        string_val: "100 0,100"
+        string_val: "100 100 0,100:0,100"
+        string_val: "100 100 0,100:0,100"
+        string_val: "50 2 0,50:0,2"
+        string_val: "50 2 0,50:0,2"
         string_val: "1 0,1"
         string_val: "1 0,1"
-        string_val: "50 1 0,50:0,1"
-        string_val: "50 1 0,50:0,1"
+        string_val: "100 1 0,100:0,1"
+        string_val: "100 1 0,100:0,1"
         string_val: ""
       }
     }
@@ -19351,6 +26718,8 @@ node {
   input: "dnn/dnn/hiddenlayer_1/bias/part_0/Adagrad/read"
   input: "dnn/hiddenlayer_1/kernel/part_0/read"
   input: "dnn/dnn/hiddenlayer_1/kernel/part_0/Adagrad/read"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/read"
+  input: "dnn/dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Adagrad/read"
   input: "dnn/logits/bias/part_0/read"
   input: "dnn/dnn/logits/bias/part_0/Adagrad/read"
   input: "dnn/logits/kernel/part_0/read"
@@ -19361,6 +26730,8 @@ node {
     key: "dtypes"
     value {
       list {
+        type: DT_FLOAT
+        type: DT_FLOAT
         type: DT_FLOAT
         type: DT_FLOAT
         type: DT_FLOAT
@@ -19491,7 +26862,7 @@ node {
       list {
         shape {
           dim {
-            size: 13
+            size: 15
           }
         }
       }
@@ -19510,7 +26881,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
           dim {
-            size: 13
+            size: 15
           }
         }
         string_val: "dnn/hiddenlayer_0/bias"
@@ -19521,6 +26892,8 @@ node {
         string_val: "dnn/hiddenlayer_1/bias/t_0/Adagrad"
         string_val: "dnn/hiddenlayer_1/kernel"
         string_val: "dnn/hiddenlayer_1/kernel/t_0/Adagrad"
+        string_val: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights"
+        string_val: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/t_0/Adagrad"
         string_val: "dnn/logits/bias"
         string_val: "dnn/logits/bias/t_0/Adagrad"
         string_val: "dnn/logits/kernel"
@@ -19540,7 +26913,7 @@ node {
       list {
         shape {
           dim {
-            size: 13
+            size: 15
           }
         }
       }
@@ -19559,21 +26932,23 @@ node {
         dtype: DT_STRING
         tensor_shape {
           dim {
-            size: 13
+            size: 15
           }
         }
         string_val: "100 0,100"
         string_val: "100 0,100"
-        string_val: "3 100 0,3:0,100"
-        string_val: "3 100 0,3:0,100"
-        string_val: "50 0,50"
-        string_val: "50 0,50"
-        string_val: "100 50 0,100:0,50"
-        string_val: "100 50 0,100:0,50"
+        string_val: "17 100 0,17:0,100"
+        string_val: "17 100 0,17:0,100"
+        string_val: "100 0,100"
+        string_val: "100 0,100"
+        string_val: "100 100 0,100:0,100"
+        string_val: "100 100 0,100:0,100"
+        string_val: "50 2 0,50:0,2"
+        string_val: "50 2 0,50:0,2"
         string_val: "1 0,1"
         string_val: "1 0,1"
-        string_val: "50 1 0,50:0,1"
-        string_val: "50 1 0,50:0,1"
+        string_val: "100 1 0,100:0,1"
+        string_val: "100 1 0,100:0,1"
         string_val: ""
       }
     }
@@ -19602,7 +26977,7 @@ node {
         }
         shape {
           dim {
-            size: 3
+            size: 17
           }
           dim {
             size: 100
@@ -19610,7 +26985,33 @@ node {
         }
         shape {
           dim {
-            size: 3
+            size: 17
+          }
+          dim {
+            size: 100
+          }
+        }
+        shape {
+          dim {
+            size: 100
+          }
+        }
+        shape {
+          dim {
+            size: 100
+          }
+        }
+        shape {
+          dim {
+            size: 100
+          }
+          dim {
+            size: 100
+          }
+        }
+        shape {
+          dim {
+            size: 100
           }
           dim {
             size: 100
@@ -19620,26 +27021,16 @@ node {
           dim {
             size: 50
           }
+          dim {
+            size: 2
+          }
         }
         shape {
           dim {
             size: 50
           }
-        }
-        shape {
           dim {
-            size: 100
-          }
-          dim {
-            size: 50
-          }
-        }
-        shape {
-          dim {
-            size: 100
-          }
-          dim {
-            size: 50
+            size: 2
           }
         }
         shape {
@@ -19654,7 +27045,7 @@ node {
         }
         shape {
           dim {
-            size: 50
+            size: 100
           }
           dim {
             size: 1
@@ -19662,7 +27053,7 @@ node {
         }
         shape {
           dim {
-            size: 50
+            size: 100
           }
           dim {
             size: 1
@@ -19678,6 +27069,8 @@ node {
     key: "dtypes"
     value {
       list {
+        type: DT_FLOAT
+        type: DT_FLOAT
         type: DT_FLOAT
         type: DT_FLOAT
         type: DT_FLOAT
@@ -19808,7 +27201,7 @@ node {
       list {
         shape {
           dim {
-            size: 3
+            size: 17
           }
           dim {
             size: 100
@@ -19855,7 +27248,7 @@ node {
       list {
         shape {
           dim {
-            size: 3
+            size: 17
           }
           dim {
             size: 100
@@ -19902,7 +27295,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -19946,7 +27339,7 @@ node {
       list {
         shape {
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -19993,7 +27386,7 @@ node {
             size: 100
           }
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -20040,7 +27433,7 @@ node {
             size: 100
           }
           dim {
-            size: 50
+            size: 100
           }
         }
       }
@@ -20062,7 +27455,7 @@ node {
 node {
   name: "save/Assign_8"
   op: "Assign"
-  input: "dnn/logits/bias/part_0"
+  input: "dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
   input: "save/RestoreV2:8"
   attr {
     key: "T"
@@ -20074,7 +27467,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@dnn/logits/bias/part_0"
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
       }
     }
   }
@@ -20084,7 +27477,10 @@ node {
       list {
         shape {
           dim {
-            size: 1
+            size: 50
+          }
+          dim {
+            size: 2
           }
         }
       }
@@ -20106,7 +27502,7 @@ node {
 node {
   name: "save/Assign_9"
   op: "Assign"
-  input: "dnn/dnn/logits/bias/part_0/Adagrad"
+  input: "dnn/dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0/Adagrad"
   input: "save/RestoreV2:9"
   attr {
     key: "T"
@@ -20118,7 +27514,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@dnn/logits/bias/part_0"
+        s: "loc:@dnn/input_from_feature_columns/input_layer/ip_embedding/embedding_weights/part_0"
       }
     }
   }
@@ -20128,7 +27524,10 @@ node {
       list {
         shape {
           dim {
-            size: 1
+            size: 50
+          }
+          dim {
+            size: 2
           }
         }
       }
@@ -20150,7 +27549,7 @@ node {
 node {
   name: "save/Assign_10"
   op: "Assign"
-  input: "dnn/logits/kernel/part_0"
+  input: "dnn/logits/bias/part_0"
   input: "save/RestoreV2:10"
   attr {
     key: "T"
@@ -20162,7 +27561,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@dnn/logits/kernel/part_0"
+        s: "loc:@dnn/logits/bias/part_0"
       }
     }
   }
@@ -20171,9 +27570,6 @@ node {
     value {
       list {
         shape {
-          dim {
-            size: 50
-          }
           dim {
             size: 1
           }
@@ -20197,7 +27593,7 @@ node {
 node {
   name: "save/Assign_11"
   op: "Assign"
-  input: "dnn/dnn/logits/kernel/part_0/Adagrad"
+  input: "dnn/dnn/logits/bias/part_0/Adagrad"
   input: "save/RestoreV2:11"
   attr {
     key: "T"
@@ -20209,7 +27605,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@dnn/logits/kernel/part_0"
+        s: "loc:@dnn/logits/bias/part_0"
       }
     }
   }
@@ -20218,9 +27614,6 @@ node {
     value {
       list {
         shape {
-          dim {
-            size: 50
-          }
           dim {
             size: 1
           }
@@ -20244,8 +27637,102 @@ node {
 node {
   name: "save/Assign_12"
   op: "Assign"
-  input: "global_step"
+  input: "dnn/logits/kernel/part_0"
   input: "save/RestoreV2:12"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/logits/kernel/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 100
+          }
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "save/Assign_13"
+  op: "Assign"
+  input: "dnn/dnn/logits/kernel/part_0/Adagrad"
+  input: "save/RestoreV2:13"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@dnn/logits/kernel/part_0"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 100
+          }
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "save/Assign_14"
+  op: "Assign"
+  input: "global_step"
+  input: "save/RestoreV2:14"
   attr {
     key: "T"
     value {
@@ -20290,6 +27777,8 @@ node {
   input: "^save/Assign_10"
   input: "^save/Assign_11"
   input: "^save/Assign_12"
+  input: "^save/Assign_13"
+  input: "^save/Assign_14"
   input: "^save/Assign_2"
   input: "^save/Assign_3"
   input: "^save/Assign_4"
@@ -20307,7 +27796,7 @@ node {
 library {
   function {
     signature {
-      name: "_make_dataset_MhbAEYEB0cI"
+      name: "_make_dataset_0Poz6FcYA38"
       output_arg {
         name: "batchdataset"
         type: DT_VARIANT
@@ -23535,7 +31024,7 @@ library {
             dtype: DT_INT64
             tensor_shape {
             }
-            int64_val: 10000
+            int64_val: 100000
           }
         }
       }
@@ -23647,7 +31136,7 @@ library {
             dtype: DT_INT64
             tensor_shape {
             }
-            int64_val: -1
+            int64_val: 5
           }
         }
       }
@@ -23709,7 +31198,7 @@ library {
             dtype: DT_INT64
             tensor_shape {
             }
-            int64_val: 100
+            int64_val: 200
           }
         }
       }

@@ -19,20 +19,13 @@ class DataPipeline:
   '''
   #Google Train input function
   def eval_input_fn(self,features, labels=None, batch_size=None):
-    """An input function for evaluation or prediction"""
     if labels is None:
-      # No labels, use only features.
-      inputs = features
+        dataset = tf.data.Dataset.from_tensor_slices(dict(features))
     else:
-      inputs = (features, labels)
+        dataset = tf.data.Dataset.from_tensor_slices((dict(features), labels))
 
-    # Convert inputs to a tf.dataset object.
-    dataset = tf.data.Dataset.from_tensor_slices(inputs)
-
-    # Batch the examples
     assert batch_size is not None, "batch_size must not be None"
     dataset = dataset.batch(batch_size)
-
     # Return the read end of the pipeline.
     return dataset.make_one_shot_iterator().get_next()
 
@@ -41,11 +34,11 @@ class DataPipeline:
     dataset = tf.data.Dataset.from_tensor_slices((dict(features), labels))
     # Setting the buffer_size to a value larger than the number of examples (120) buffer size 1000 ensures that the data will be well shuffled.
     #examples 1000 buffere size 10000
-    dataset = dataset.shuffle(buffer_size=10000).repeat(count=None).batch(batch_size)
+    dataset = dataset.shuffle(buffer_size=100000).repeat(count=5).batch(batch_size)
     return dataset.make_one_shot_iterator().get_next()
 
-  TRAIN_URL = "data_train.csv"
-  TEST_URL = "data_test.csv"
+  TRAIN_URL = "./train_test_data/data_train.csv"
+  TEST_URL = "./train_test_data/data_test.csv"
 
   CSV_COLUMN_NAMES = ['ip','port','loc_country','zip','protocol','ts','times','is_attack']
 
