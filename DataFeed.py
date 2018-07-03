@@ -12,7 +12,7 @@ cursor = db.getCursor()
 
 # execute query to get all the data from database
 try:
-    cursor.execute("select DISTINCT ts from corr where pk>10")
+    cursor.execute("select DISTINCT ts from corr")
 except:
     print("Couldn't Connect to MySQLdb")
     time.sleep(5)
@@ -43,20 +43,22 @@ for time in data:
             continue
         else:
             for n in range(0, (len(dict))):
-                if dict[str(n)]['IP'] == str(row[1]):
-                    if dict[str(n)]['P'] == 'HTTP':
-                        dict[str(n)]['T'] += 1
+                no = str(n)
+                if dict[no]['IP'] == str(row[1]):
+                    if dict[no]['P'] == 'HTTP':
+                        dict[no]['T'] += 1
                         continue
                 temp = {'IP': str(row[1]), 'P': 'HTTP', 'T': 1, 'LOC': str(row[2]),'zip':str(row[3]),'port':80}
                 dict.setdefault(str(le), temp)
                 le += 1
     for n in range(0, le):
+        pos = str(n)
         if dict[str(n)]['T'] > 15 :
-            wpl.writeLogs(dict[str(n)]['IP'],dict[str(n)]['port'],dict[str(n)]['LOC'],dict[str(n)]['zip'],dict[str(n)]['P'],str(time[0]),dict[str(n)]['T'],str(1))
-            print(" \t " + str(dict[str(n)]))
+            wpl.writeLogs(dict[pos]['IP'],dict[pos]['port'],dict[pos]['LOC'],dict[pos]['zip'],dict[pos]['P'],str(time[0]),dict[pos]['T'],str(1))
+            print(" \t " + str(dict[pos]))
         else:
-            wpl.writeLogs(dict[str(n)]['IP'], dict[str(n)]['port'], dict[str(n)]['LOC'], dict[str(n)]['zip'],dict[str(n)]['P'], str(time[0]), dict[str(n)]['T'], str(0))
-            print(" \t " + str(dict[str(n)]))
+            wpl.writeLogs(dict[pos]['IP'], dict[pos]['port'], dict[pos]['LOC'], dict[pos]['zip'],dict[pos]['P'], str(time[0]), dict[pos]['T'], str(0))
+            print(" \t " + str(dict[pos]))
     dict = {}
 
 # closing MySQLConnection obj cursor
